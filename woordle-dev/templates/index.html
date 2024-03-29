@@ -5,12 +5,36 @@
     <title>Wordle Solver</title>
 </head>
 <body>
-    <form action="/guess" method="post">
-        <label for="guess">Enter your guess:</label>
-        <input type="text" id="guess" name="guess" required>
-        <label for="feedback">Enter feedback:</label>
-        <input type="text" id="feedback" name="feedback" required>
-        <input type="submit" value="Submit">
-    </form>
+    {% if win %}
+        <h2>Congratulations! You've guessed the word correctly!</h2>
+        <!-- Display the restart button on the winning screen -->
+        <form action="/restart" method="get">
+            <button type="submit">Restart Game</button>
+        </form>
+    {% else %}
+        <!-- The regular game interface -->
+        {% if best_guess %}
+            <h2>Next best guess: {{ best_guess }}</h2>
+        {% else %}
+            <h2>No guesses left or start a new game.</h2>
+        {% endif %}
+        <form action="/" method="post">
+            <label for="guess">Enter your guess:</label>
+            <input type="text" id="guess" name="guess" required>
+            <label for="feedback">Enter feedback:</label>
+            <input type="text" id="feedback" name="feedback" required>
+            <input type="submit" value="Submit">
+        </form>
+        <!-- Restart button for non-winning state -->
+        <form action="/restart" method="get">
+            <button type="submit">Restart Game</button>
+        </form>
+        <!-- Undo Last Action button, shown only if there's history -->
+        {% if history > 0 %}
+        <form action="/undo" method="get">
+            <button type="submit">Undo Last Action</button>
+        </form>
+        {% endif %}
+    {% endif %}
 </body>
 </html>
