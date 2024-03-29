@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_session import Session
+from flask import send_from_directory
 import woordle_methods
 
 app = Flask(__name__)
@@ -73,6 +74,10 @@ def restart():
 
     
     return redirect(url_for('index'))
+
+@app.route('/logo.png')
+def logo():
+    return send_from_directory(app.root_path, 'logo.png')
 
 if __name__ == '__main__':
     app.run(debug=True)

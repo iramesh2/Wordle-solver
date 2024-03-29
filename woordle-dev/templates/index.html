@@ -5,8 +5,8 @@
     <title>Wordle Solver</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            background: #90ee90; /* light green background */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,76 +19,86 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+        .logo {
+            margin: 0 auto 20px auto;
+            display: block;
+            width: 100px;
+        }
+        .title {
+            margin-top: 0;
+            color: #333;
+            font-size: 2em; /* Increase the title size */
         }
         h2 {
             color: #333;
+            margin-bottom: 20px;
         }
-        form {
-            margin-top: 15px;
+        .input-group {
+            margin: 15px 0;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
         }
         input[type="text"] {
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            margin: 0 5px;
-            width: 300px; /* Adjust as per your layout */
+            margin-bottom: 10px; /* space between input and next element */
+            width: 100%; 
         }
-        input[type="submit"], button {
+        .button-group button {
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
             background-color: #5cb85c;
             color: white;
             cursor: pointer;
-            margin-top: 10px;
+            margin: 10px 5px 0; /* Add margin to the top */
         }
-        input[type="submit"]:hover, button:hover {
+        .button-group button:hover {
             background-color: #4cae4c;
-        }
-        .message {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 20px 0;
         }
         .button-group {
             display: flex;
-            justify-content: center;
-        }
-        .button-group form {
-            margin: 0 10px;
+            flex-wrap: wrap;
+            justify-content: center; /* Center buttons on new line */
+            gap: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <h1 class="title">Wordle Solver</h1> <!-- Page title -->
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Wordle Solver Logo" class="logo">
         {% if win %}
             <h2>Congratulations! You've guessed the word correctly!</h2>
-            <!-- Display the restart button on the winning screen -->
             <form action="/restart" method="get">
                 <button type="submit">Restart Game</button>
             </form>
         {% else %}
-            <!-- The regular game interface -->
-            <div class="message">
-                {% if best_guess %}
-                    <h2>Next best guess: {{ best_guess }}</h2>
-                {% else %}
-                    <h2>No guesses left or start a new game.</h2>
-                {% endif %}
-            </div>
-            <form action="/" method="post">
+            <h2>Next best guess: {{ best_guess }}</h2>
+            <div class="input-group">
                 <label for="guess">Enter your guess:</label>
                 <input type="text" id="guess" name="guess" required>
+            </div>
+            <div class="input-group">
                 <label for="feedback">Enter feedback:</label>
                 <input type="text" id="feedback" name="feedback" required>
-                <input type="submit" value="Submit">
-            </form>
+            </div>
             <div class="button-group">
-                <!-- Restart button for non-winning state -->
+                <form action="/" method="post">
+                    <button type="submit">Submit</button>
+                </form>
                 <form action="/restart" method="get">
                     <button type="submit">Restart Game</button>
                 </form>
-                <!-- Undo Last Action button, shown only if there's history -->
                 {% if history > 0 %}
                     <form action="/undo" method="get">
                         <button type="submit">Undo Last Action</button>
