@@ -3,38 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <title>Wordle Solver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            margin-top: 15px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 0 5px;
+            width: 300px; /* Adjust as per your layout */
+        }
+        input[type="submit"], button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #5cb85c;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        input[type="submit"]:hover, button:hover {
+            background-color: #4cae4c;
+        }
+        .message {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+        }
+        .button-group form {
+            margin: 0 10px;
+        }
+    </style>
 </head>
 <body>
-    {% if win %}
-        <h2>Congratulations! You've guessed the word correctly!</h2>
-        <!-- Display the restart button on the winning screen -->
-        <form action="/restart" method="get">
-            <button type="submit">Restart Game</button>
-        </form>
-    {% else %}
-        <!-- The regular game interface -->
-        {% if best_guess %}
-            <h2>Next best guess: {{ best_guess }}</h2>
+    <div class="container">
+        {% if win %}
+            <h2>Congratulations! You've guessed the word correctly!</h2>
+            <!-- Display the restart button on the winning screen -->
+            <form action="/restart" method="get">
+                <button type="submit">Restart Game</button>
+            </form>
         {% else %}
-            <h2>No guesses left or start a new game.</h2>
+            <!-- The regular game interface -->
+            <div class="message">
+                {% if best_guess %}
+                    <h2>Next best guess: {{ best_guess }}</h2>
+                {% else %}
+                    <h2>No guesses left or start a new game.</h2>
+                {% endif %}
+            </div>
+            <form action="/" method="post">
+                <label for="guess">Enter your guess:</label>
+                <input type="text" id="guess" name="guess" required>
+                <label for="feedback">Enter feedback:</label>
+                <input type="text" id="feedback" name="feedback" required>
+                <input type="submit" value="Submit">
+            </form>
+            <div class="button-group">
+                <!-- Restart button for non-winning state -->
+                <form action="/restart" method="get">
+                    <button type="submit">Restart Game</button>
+                </form>
+                <!-- Undo Last Action button, shown only if there's history -->
+                {% if history > 0 %}
+                    <form action="/undo" method="get">
+                        <button type="submit">Undo Last Action</button>
+                    </form>
+                {% endif %}
+            </div>
         {% endif %}
-        <form action="/" method="post">
-            <label for="guess">Enter your guess:</label>
-            <input type="text" id="guess" name="guess" required>
-            <label for="feedback">Enter feedback:</label>
-            <input type="text" id="feedback" name="feedback" required>
-            <input type="submit" value="Submit">
-        </form>
-        <!-- Restart button for non-winning state -->
-        <form action="/restart" method="get">
-            <button type="submit">Restart Game</button>
-        </form>
-        <!-- Undo Last Action button, shown only if there's history -->
-        {% if history > 0 %}
-        <form action="/undo" method="get">
-            <button type="submit">Undo Last Action</button>
-        </form>
-        {% endif %}
-    {% endif %}
+    </div>
 </body>
 </html>
