@@ -23,7 +23,7 @@
             max-width: 600px;
         }
         .logo-title {
-            margin: 0 auto;
+            margin: 20px auto;
             display: block;
             width: 200px; /* Adjust as per your preference */
         }
@@ -79,27 +79,23 @@
             </form>
         {% else %}
             <h2>Next best guess: {{ best_guess }}</h2>
-            <div class="input-group">
-                <label for="guess">Enter Your Guess: (Example: pants):</label>
-                <input type="text" id="guess" name="guess" required>
-            </div>
-            <div class="input-group">
-                <label for="feedback">Enter Feedback: (Example: yybbg | y for yellow, g for green, and b for black):</label>
-                <input type="text" id="feedback" name="feedback" required>
-            </div>
-            <div class="button-group">
-                <form action="/" method="post">
+            <form action="/" method="post">
+                <div class="input-group">
+                    <label for="guess">Enter Your Guess: (Example: pants):</label>
+                    <input type="text" id="guess" name="guess" required>
+                </div>
+                <div class="input-group">
+                    <label for="feedback">Enter Feedback: (Example: yybbg | y for yellow, g for green, and b for black):</label>
+                    <input type="text" id="feedback" name="feedback" required>
+                </div>
+                <div class="button-group">
                     <button type="submit">Submit</button>
-                </form>
-                <form action="/restart" method="get">
-                    <button type="submit">Restart Game</button>
-                </form>
-                {% if history > 0 %}
-                    <form action="/undo" method="get">
-                        <button type="submit">Undo Last Action</button>
-                    </form>
-                {% endif %}
-            </div>
+                    <button type="button" onclick="location.href='/restart'">Restart Game</button>
+                    {% if history > 0 %}
+                        <button type="button" onclick="location.href='/undo'">Undo Last Action</button>
+                    {% endif %}
+                </div>
+            </form>
         {% endif %}
     </div>
 </body>
