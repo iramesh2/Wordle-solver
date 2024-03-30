@@ -21,7 +21,7 @@ flask run
 
 ## UI Screenshot
 
-![Wordle Solver UI](ui-screenshot.png)
+![Wordle Solver UI](ui_screenshot.png)
 
 
 This README gives users clear instructions on how to set up and play the game with your Wordle solver. You should ensure that all the files required by your solver, such as `possible_answers.txt`, are included in your GitHub repository or provide instructions on how to create or obtain them.
