@@ -14,21 +14,39 @@ def read_in_file(file_name):
 def filter_words(words, guess, feedback):
     """Filter words based on the guess and the feedback."""
     filtered_words = []
+    
     for word in words:
-        match = True
-        for i in range(5):
-            if feedback[i] == 'g' and guess[i] != word[i]:
-                match = False
-                break
-            elif feedback[i] == 'y' and (guess[i] not in word or guess[i] == word[i]):
-                match = False
-                break
-            elif feedback[i] == 'b' and guess[i] in word:
-                match = False
-                break
-        if match:
-            filtered_words.append(word)
+        # Create a copy of the word as a list for mutable operations
+        temp_word_list = list(word)
+        
+        # First pass: Process 'green' feedback
+        for i in range(len(guess)):
+            if feedback[i] == 'g':
+                if guess[i] != word[i]:
+                    break
+                else:
+                    # Remove the matched letter to avoid re-matching in 'yellow' processing
+                    temp_word_list[i] = None
+        else:
+            # Second pass: Process 'yellow' and 'black' feedback
+            for i in range(len(guess)):
+                if feedback[i] == 'y':
+                    if guess[i] not in temp_word_list or guess[i] == word[i]:
+                        break
+                    else:
+                        # Remove the first occurrence of this letter from the temp word list to handle repeats
+                        temp_word_list[temp_word_list.index(guess[i])] = None
+                elif feedback[i] == 'b':
+                    if guess[i] in temp_word_list:
+                        break
+            else:
+                # If both loops complete without breaking, it's a match
+                filtered_words.append(word)
+
     return filtered_words
+
+
+
 
 # Logic used to calculate the best guess.
 def calculate_letter_frequencies(words):

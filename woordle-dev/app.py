@@ -21,9 +21,14 @@ def index():
     win_condition_met = False
 
     if request.method == 'POST':
+        print(f"Form data received: {request.form}")
         print(request.form)  # Debug: print the form data received
         guess = request.form.get('guess', '').lower()
         feedback = request.form.get('feedback', '').lower()
+
+        print(f"Before filtering, {len(session['possible_words'])} possible words.")
+        session['possible_words'] = woordle_methods.filter_words(session['possible_words'], guess, feedback)
+        print(f"After filtering, {len(session['possible_words'])} possible words.")
 
         if feedback == "ggggg":
             win_condition_met = True
