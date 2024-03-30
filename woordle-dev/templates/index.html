@@ -22,15 +22,10 @@
             width: 80%;
             max-width: 600px;
         }
-        .logo {
-            margin: 0 auto 20px auto;
+        .logo-title {
+            margin: 0 auto;
             display: block;
-            width: 100px;
-        }
-        .title {
-            margin-top: 0;
-            color: #333;
-            font-size: 2em; /* Increase the title size */
+            width: 200px; /* Adjust as per your preference */
         }
         h2 {
             color: #333;
@@ -51,7 +46,7 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             margin-bottom: 10px; /* space between input and next element */
-            width: 100%; 
+            width: 100%; /* full width */
         }
         .button-group button {
             padding: 10px 20px;
@@ -75,8 +70,8 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="title">Wordle Solver</h1> <!-- Page title -->
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Wordle Solver Logo" class="logo">
+        <!-- New logo image replaces the previous text title -->
+        <img src="{{ url_for('static', filename='WordleSolverLogo1.png') }}" alt="Wordle Solver" class="logo-title">
         {% if win %}
             <h2>Congratulations! You've guessed the word correctly!</h2>
             <form action="/restart" method="get">
@@ -85,11 +80,11 @@
         {% else %}
             <h2>Next best guess: {{ best_guess }}</h2>
             <div class="input-group">
-                <label for="guess">Enter Your Guess: (Example: pants) :</label>
+                <label for="guess">Enter Your Guess: (Example: pants):</label>
                 <input type="text" id="guess" name="guess" required>
             </div>
             <div class="input-group">
-                <label for="feedback">Enter Feedback: (Example: yybbg | y for yellow, g for green, and b for black): </label>
+                <label for="feedback">Enter Feedback: (Example: yybbg | y for yellow, g for green, and b for black):</label>
                 <input type="text" id="feedback" name="feedback" required>
             </div>
             <div class="button-group">
