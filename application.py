@@ -3,12 +3,12 @@ from flask_session import Session
 from flask import send_from_directory
 import woordle_methods
 
-app = Flask(__name__)
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+application = Flask(__name__)
+application.config["SESSION_PERMANENT"] = False
+application.config["SESSION_TYPE"] = "filesystem"
+Session(application)
 
-@app.route('/', methods=['GET', 'POST'])
+@application.route('/', methods=['GET', 'POST'])
 def index():
     if 'history' not in session:
         session['history'] = []
@@ -54,7 +54,7 @@ def index():
     session.modified = True
     return render_template('index.html', best_guess=message, win=session.get('win', False), history=len(session.get('history', [])))
 
-@app.route('/undo', methods=['GET'])
+@application.route('/undo', methods=['GET'])
 def undo():
     if session.get('history'):
         session['history'].pop()
@@ -65,7 +65,7 @@ def undo():
         session['win'] = False
     return redirect(url_for('index'))
 
-@app.route('/restart', methods=['GET'])
+@application.route('/restart', methods=['GET'])
 def restart():
     session.pop('possible_words', None)
     session.pop('best_guess', None)
@@ -73,14 +73,15 @@ def restart():
     session['history'] = []
     return redirect(url_for('index'))
 
-@app.route('/logo.png')
+@application.route('/logo.png')
 def logo():
-    return send_from_directory(app.root_path, 'logo.png')
+    return send_from_directory(application.root_path, 'logo.png')
 
-@app.errorhandler(400)
+@application.errorhandler(400)
 def bad_request(error):
-    app.logger.error(f'Bad request: {request.url}, {request.data}, {error}')  # Log detailed error
+    application.logger.error(f'Bad request: {request.url}, {request.data}, {error}')  # Log detailed error
     return f"Bad Request: {error}", 400
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
+
