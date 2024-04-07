@@ -27,3 +27,11 @@ flask run
 
 
 This README gives users clear instructions on how to set up and play the game with your Wordle solver. You should ensure that all the files required by your solver, such as `possible_answers.txt`, are included in your GitHub repository or provide instructions on how to create or obtain them.
+
+## Notes for developers
+
+When making modifications to the file to host on beanstalk run this command when generating the zip file to remove unwanted .DsStore and MACos config files
+zip -r Wordle-solver-main.zip Wordle-solver-main/ -x "*.DS_Store" -x "__MACOSX"
+
+
+python3 -m venv venv && source venv/bin/activate
